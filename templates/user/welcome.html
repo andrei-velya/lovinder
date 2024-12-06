@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Позакомимся?</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f8f9fa;
+        }
+        .form-complete-profile {
+            width: 100%;
+            max-width: 400px;
+            padding: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <main class="form-complete-profile">
+        <p style="font-size: 6rem;">👤</p>
+
+        <!-- Заголовок -->
+        <h1 class="h4 mb-3 fw-normal">Заполните профиль</h1>
+        
+        <!-- Форма -->
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!-- Поле "О себе" -->
+            <div class="mb-3">
+                {{ form.bio.label_tag }}
+                {{ form.bio }}
+            </div>
+            <!-- Поле "Возраст" -->
+            <div class="mb-3">
+                {{ form.age.label_tag }}
+                {{ form.age }}
+            </div>
+            <!-- Поле "Пол" -->
+            <div class="mb-3">
+                {{ form.gender.label_tag }}
+                {{ form.gender }}
+            </div>
+            <!-- Поле "Фотография" -->
+            <div class="mb-3">
+                {{ form.photo.label_tag }}
+                {{ form.photo }}
+            </div>
+            <!-- Поле "Ссылка" -->
+            <div class="mb-3">
+                {{ form.link.label_tag }}
+                {{ form.link }}
+            </div>
+            <!-- Кнопка сохранить -->
+            <button class="btn btn-primary w-100" type="submit">Сохранить</button>
+        </form>
+
+        <!-- Footer -->
+        <footer class="mt-4">
+            <p class="mb-0 text-muted">&copy; 2017–2024</p>
+        </footer>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

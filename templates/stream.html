@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lovinder Stream</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> 
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Светлый фон */
+        }
+        .profile-pic {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .reaction-btn {
+            font-size: 2rem;
+            cursor: pointer;
+            color: #6c757d;
+        }
+        .reaction-btn:hover {
+            color: #495057;
+        }
+        .header {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .description {
+            font-size: 1rem;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    
+<!-- Хеддер -->
+<div class="header text-center mb-4">
+    <img src="{{ profile.photo.url }}" alt="" class="img-fluid rounded-circle mb-3" width="150">
+    {% if matched_profiles %}
+        <h3 class="mb-4">💌 {{ profile.user }}, вот ваши мэтчи</h3>
+        <div class="row-cols-md-3 g-4">
+            {% for match in matched_profiles %}
+                <div class="col">
+                    <div class="card h-100 text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ match.user.username }}</h5>
+                            <a href="{{ match.link }}" target="_blank" class="btn btn-primary">Перейти в соцсети</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Нет мэтчей.</p>
+    {% endif %}
+    <a href="{% url 'logout' %}" class="btn btn-link mt-4">Выйти</a>
+</div>
+
+    <!-- Основной контент -->
+    <div class="container d-flex flex-column align-items-center">
+        <div class="profile-card">
+            {% if not message %}
+            <img src="{{ current_profile.photo.url }}" alt="Profile Picture" class="img-fluid rounded mb-3" width="350">
+            <h3>{{current_profile.id}} {{ current_profile.user.username }}</h3>
+            <p>{{ current_profile.bio }}</p>
+            <p>Возраст: {{ current_profile.age }}</p>
+            <p>Пол: {{ current_profile.get_gender_display }}</p>
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="buttons">
+                    <a href="{% url 'dislike' current_profile.id %}?next={% url 'stream' %}" class="btn btn-danger">👎 Дизлайк</a>
+                    <a href="{% url 'like' current_profile.id %}?next={% url 'stream' %}" class="btn btn-success">👍 Лайк</a>
+                </div>
+            </form>
+        </div>
+        {% else %}
+        <h1>{{message}}</h1>
+        {% endif %}
+
+    <!-- Подключаем Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
